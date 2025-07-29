@@ -1,4 +1,4 @@
-package com.ll.ch03_10;
+package com.ll.ch03_10.domain.home.home.controller;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;

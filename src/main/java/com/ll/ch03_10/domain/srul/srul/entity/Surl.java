@@ -1,4 +1,4 @@
-package com.ll.ch03_10;
+package com.ll.ch03_10.domain.srul.srul.entity;
 
 import lombok.AccessLevel;
 import lombok.Builder;
