@@ -2,6 +2,11 @@ package com.ll.ch03_10.global.initData;
 
 import com.ll.ch03_10.domain.article.article.entity.Article;
 import com.ll.ch03_10.domain.article.article.service.ArticleService;
+import com.ll.ch03_10.domain.member.member.entity.Member;
+import com.ll.ch03_10.domain.member.member.repository.MemberRepository;
+import com.ll.ch03_10.domain.member.member.service.MemberService;
+import com.ll.ch03_10.global.exceptions.GlobalException;
+import com.ll.ch03_10.global.rsData.RsData;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +26,10 @@ public class NotProd {
     @Autowired
     private NotProd self; //외우기
 
+    private final MemberService memberService;
     private final ArticleService articleService; //bean이 들어오게 된다?
+    @Autowired
+    private MemberRepository memberRepository;
 
     @Bean
     public ApplicationRunner initNotProd(){//spring boot와 약속된 class? 시작할때 처음으로 시작됨 바로
@@ -35,6 +43,18 @@ public class NotProd {
     @Transactional
     public void work1() {
         if(articleService.count() > 0) return; //읽기 트랜잭션 1
+
+        Member member1 = memberService.join("user1", "1234", "유저1").getData();
+        Member member2 = memberService.join("user2", "1234", "유저2").getData();
+        try{
+            RsData<Member> joinRs = memberService.join("user2", "1234", "유저2");
+        }
+        catch(GlobalException e){
+            System.out.println("e.getRsData().getMsg(): "+e.getRsData().getMsg());
+            System.out.println("e.getRsData().getStatusCode(): "+e.getRsData().getStatusCode());
+        }
+
+
 
         Article article1 = articleService.write("제목1", "내용1").getData(); //쓰기 트랜잭션 3
         Article article2 = articleService.write("제목2", "내용2").getData();
