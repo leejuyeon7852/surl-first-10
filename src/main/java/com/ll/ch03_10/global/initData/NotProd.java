@@ -5,8 +5,6 @@ import com.ll.ch03_10.domain.article.article.service.ArticleService;
 import com.ll.ch03_10.domain.member.member.entity.Member;
 import com.ll.ch03_10.domain.member.member.repository.MemberRepository;
 import com.ll.ch03_10.domain.member.member.service.MemberService;
-import com.ll.ch03_10.global.exceptions.GlobalException;
-import com.ll.ch03_10.global.rsData.RsData;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +13,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Profile;
-
-import java.util.List;
 
 @Profile("!prod") //!prod == dev or test일 때
 @Configuration
@@ -46,36 +42,17 @@ public class NotProd {
 
         Member member1 = memberService.join("user1", "1234", "유저1").getData();
         Member member2 = memberService.join("user2", "1234", "유저2").getData();
-        try{
-            RsData<Member> joinRs = memberService.join("user2", "1234", "유저2");
-        }
-        catch(GlobalException e){
-            System.out.println("e.getRsData().getMsg(): "+e.getRsData().getMsg());
-            System.out.println("e.getRsData().getStatusCode(): "+e.getRsData().getStatusCode());
-        }
 
+        Article article1 = articleService.write(member1,"제목1", "내용1").getData();
+        Article article2 = articleService.write(member1, "제목2", "내용2").getData();
 
+        Article article3 = articleService.write(member2,"제목1", "내용1").getData();
+        Article article4 = articleService.write(member2, "제목2", "내용2").getData();
 
-        Article article1 = articleService.write("제목1", "내용1").getData(); //쓰기 트랜잭션 3
-        Article article2 = articleService.write("제목2", "내용2").getData();
-
-        article2.setTitle("제목!!!");
-
-        articleService.delete(article1);
     }
 
     @Transactional
     public void work2() { //select
-        //List : 0~ N
-        //Optional : 0~ 1개
-//        Optional<Article> opArticle1 =articleRepository.findById(2L);
-//
-//        opArticle1.get();
-
-        Article article = articleService.findById(2L).get();
-
-        List<Article> articles = articleService.findAll();
-
 
     }
 

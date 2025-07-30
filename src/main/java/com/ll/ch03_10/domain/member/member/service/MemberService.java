@@ -6,6 +6,7 @@ import com.ll.ch03_10.global.exceptions.GlobalException;
 import com.ll.ch03_10.global.rsData.RsData;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -14,6 +15,7 @@ import java.util.Optional;
 public class MemberService {
     private final MemberRepository memberRepository;
 
+    @Transactional //관례
     public RsData<Member> join(String username, String password, String nickname) {
 
 //        findByUsername(username).ifPresent(member -> {
@@ -47,5 +49,9 @@ public class MemberService {
 
     private Optional<Member> findByUsername(String username) {
         return memberRepository.findByUsername(username);
+    }
+
+    public Member getReferenceById(long id) {
+        return memberRepository.getReferenceById(id);
     }
 }

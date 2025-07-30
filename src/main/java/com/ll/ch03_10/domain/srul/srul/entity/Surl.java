@@ -1,21 +1,24 @@
 package com.ll.ch03_10.domain.srul.srul.entity;
 
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.ll.ch03_10.domain.member.member.entity.Member;
+import com.ll.ch03_10.global.jpa.entity.BaseTime;
+import jakarta.persistence.Entity;
+import jakarta.persistence.ManyToOne;
+import lombok.*;
 
-import java.time.LocalDateTime;
+import static lombok.AccessLevel.PROTECTED;
 
+@Entity
+@Builder
 @Getter
 @Setter
-@Builder
-public class Surl {
-    private long id;
-    @Builder.Default
-    private LocalDateTime creatDate = LocalDateTime.now();
-    @Builder.Default
-    private LocalDateTime modifyDate = LocalDateTime.now();
+@AllArgsConstructor(access=PROTECTED)
+@NoArgsConstructor(access=PROTECTED)
+public class Surl extends BaseTime {
+    @ManyToOne
+    @JsonIgnore // 나중에 제거할 거임
+    private Member author;
     private String body;
     private String url;
     @Setter(AccessLevel.NONE) //count만 setter를 막고 싶을 때
