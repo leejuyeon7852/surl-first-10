@@ -1,7 +1,7 @@
 package com.ll.ch03_10.global.initData;
 
 import com.ll.ch03_10.domain.article.article.entity.Article;
-import com.ll.ch03_10.domain.article.article.repository.ArticleRepository;
+import com.ll.ch03_10.domain.article.article.service.ArticleService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,7 @@ public class NotProd {
     @Autowired
     private NotProd self; //외우기
 
-    private final ArticleRepository articleRepository; //bean이 들어오게 된다?
+    private final ArticleService articleService; //bean이 들어오게 된다?
 
     @Bean
     public ApplicationRunner initNotProd(){//spring boot와 약속된 class? 시작할때 처음으로 시작됨 바로
@@ -34,24 +34,14 @@ public class NotProd {
 
     @Transactional
     public void work1() {
-        if(articleRepository.count() > 0) return; //읽기 트랜잭션 1
+        if(articleService.count() > 0) return; //읽기 트랜잭션 1
 
-        Article article1 = Article.builder()
-                .title("제목")
-                .body("내용")
-                .build();
-
-        Article article2 = Article.builder()
-                .title("제목")
-                .body("내용")
-                .build();
-
-        articleRepository.save(article1); //쓰기 트랜잭션 3
-        articleRepository.save(article2);
+        Article article1 = articleService.write("제목1", "내용1"); //쓰기 트랜잭션 3
+        Article article2 = articleService.write("제목2", "내용2");
 
         article2.setTitle("제목!!!");
 
-        articleRepository.delete(article1);
+        articleService.delete(article1);
     }
 
     @Transactional
@@ -62,13 +52,10 @@ public class NotProd {
 //
 //        opArticle1.get();
 
-        Article article = articleRepository.findById(2L).get();
+        Article article = articleService.findById(2L).get();
 
-        List<Article> articles = articleRepository.findAll();
+        List<Article> articles = articleService.findAll();
 
-        articleRepository.findByIdInOrderByTitleDescIdAsc(List.of(1L, 2L));
-        articleRepository.findByTitleContaining("제목!!!");
-        articleRepository.findByTitleAndBody("제목!!!", "내용");
 
     }
 
