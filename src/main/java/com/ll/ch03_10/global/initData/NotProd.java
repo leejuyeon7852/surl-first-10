@@ -28,6 +28,7 @@ public class NotProd {
     @Autowired
     private MemberRepository memberRepository;
 
+    //GitHub Action test
     @Bean
     @Order(4)
     public ApplicationRunner initNotProd(){//spring boot와 약속된 class? 시작할때 처음으로 시작됨 바로
