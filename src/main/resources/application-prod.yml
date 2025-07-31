@@ -1,5 +1,30 @@
 server:
   port: 8090
+spring:
+  profiles:
+    active: dev
+    include: secret
+  datasource:
+    url: jdbc:postgresql://ljy-db.internal:5432/surl_prod
+    username: postgres
+    password: h3neJGs6h1xzAOQ
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        default_batch_fetch_size: 100
+        format_sql: false
+        highlight_sql: false
+        use_sql_comments: false
+logging: # SQL이 자세하게 출력됨
+  level:
+    com.ll.ch03_10: INFO
+    org.hibernate.SQL: INFO
+    org.hibernate.orm.jdbc.bind: INFO
+    org.hibernate.orm.jdbc.extract: INFO
+    org.springframework.transaction.interceptor: INFO
 custom:
   site:
     name: "My Site Prod"
