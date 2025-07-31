@@ -5,6 +5,7 @@ import com.ll.ch03_10.domain.member.member.repository.MemberRepository;
 import com.ll.ch03_10.domain.member.member.service.MemberService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Bean;
@@ -14,6 +15,7 @@ import org.springframework.core.annotation.Order;
 
 @Configuration
 @RequiredArgsConstructor
+@Slf4j
 public class All {
     @Lazy
     @Autowired
@@ -34,6 +36,8 @@ public class All {
 
     @Transactional
     public void work1() {
+
+        log.debug("initAll started");
         if(memberService.count() > 0) return; //읽기 트랜잭션 1
 
         Member memberSystem = memberService.join("system", "1234", "시스템").getData();
