@@ -1,6 +1,5 @@
 package com.ll.ch03_10.domain.member.member.controller;
 
-import com.ll.ch03_10.domain.member.member.entity.Member;
 import com.ll.ch03_10.domain.member.member.service.MemberService;
 import com.ll.ch03_10.global.exceptions.GlobalException;
 import com.ll.ch03_10.global.rsData.RsData;
@@ -30,8 +29,7 @@ public class MemberController {
             throw new GlobalException("400-1", "닉네임을 입력해주세요");
         }
 
-        RsData<Member> joinRs = memberService.join(username, password, nickname);
+        return  memberService.join(username, password, nickname);
 
-        return joinRs;
     }
 }
