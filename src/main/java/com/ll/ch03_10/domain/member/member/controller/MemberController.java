@@ -31,16 +31,8 @@ public class MemberController {
         if (Ut.str.isBlank(nickname)){
             throw new GlobalException("400-1", "닉네임을 입력해주세요");
         }
-        try{
-            return memberService.join(username, password, nickname);
-        }
-        catch(GlobalException e){
-            if(e.getRsData().getResultCode().equals("400-1")){
-                log.debug("이미 존재하는 아이디입니다.");
-            }
-            return RsData.of("400-A", "커스텀 에러 메시지", Member.builder().build());
-        }
 
+        return memberService.join(username, password, nickname);
 
     }
 }
