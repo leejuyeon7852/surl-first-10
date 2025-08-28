@@ -22,7 +22,7 @@ public class AuthService {
         if(actor==null) return false;
         if(surl==null) return false;
 
-        return !actor.equals(surl.getAuthor());
+        return actor.equals(surl.getAuthor());
     }
 
     public void checkCanDeleteSurl(Member actor, Surl surl) {
