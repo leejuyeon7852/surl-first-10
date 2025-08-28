@@ -1,6 +1,6 @@
-package com.ll.ch03_10.domain.srul.srul.repository;
+package com.ll.ch03_10.domain.surl.surl.repository;
 
-import com.ll.ch03_10.domain.srul.srul.entity.Surl;
+import com.ll.ch03_10.domain.surl.surl.entity.Surl;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 

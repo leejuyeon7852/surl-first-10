@@ -1,8 +1,8 @@
 package com.ll.ch03_10.domain.surl.surl.controller;
 
 import com.ll.ch03_10.domain.member.member.entity.Member;
-import com.ll.ch03_10.domain.srul.srul.entity.Surl;
-import com.ll.ch03_10.domain.srul.srul.service.SurlService;
+import com.ll.ch03_10.domain.surl.surl.entity.Surl;
+import com.ll.ch03_10.domain.surl.surl.service.SurlService;
 import com.ll.ch03_10.global.exceptions.GlobalException;
 import com.ll.ch03_10.global.rq.Rq;
 import com.ll.ch03_10.global.rsData.RsData;

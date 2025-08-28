@@ -1,4 +1,4 @@
-package com.ll.ch03_10.domain.srul.srul.entity;
+package com.ll.ch03_10.domain.surl.surl.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ll.ch03_10.domain.member.member.entity.Member;

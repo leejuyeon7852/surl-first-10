@@ -1,9 +1,8 @@
-package com.ll.ch03_10.domain.srul.srul.service;
-
+package com.ll.ch03_10.domain.surl.surl.service;
 
 import com.ll.ch03_10.domain.member.member.entity.Member;
-import com.ll.ch03_10.domain.srul.srul.entity.Surl;
-import com.ll.ch03_10.domain.srul.srul.repository.SurlRepository;
+import com.ll.ch03_10.domain.surl.surl.entity.Surl;
+import com.ll.ch03_10.domain.surl.surl.repository.SurlRepository;
 import com.ll.ch03_10.global.rsData.RsData;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

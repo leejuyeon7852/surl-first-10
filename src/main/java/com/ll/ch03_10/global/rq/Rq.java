@@ -16,11 +16,11 @@ public class Rq {
     private final HttpServletResponse resp;
     private final MemberService memberService;
 
-    public String getCurrentUrlPath() {
-        return req.getRequestURI();
-    }
-
     public Member getMember() {
         return memberService.getReferenceById(1L);
+    }
+
+    public String getCurrentUrlPath() {
+        return req.getRequestURI();
     }
 }
