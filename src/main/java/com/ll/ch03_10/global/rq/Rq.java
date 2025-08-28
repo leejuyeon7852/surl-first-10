@@ -17,8 +17,11 @@ public class Rq {
     private final HttpServletRequest req;
     private final HttpServletResponse resp;
     private final MemberService memberService;
+    private Member member;
 
     public Member getMember(){
+        if(member == null) return member;
+
         String actorUsername = req.getParameter("actorUsername");
         String actorPassword = req.getParameter("actorPassword");
 
@@ -29,6 +32,8 @@ public class Rq {
                 .orElseThrow(() -> new GlobalException("401-2", "해당회원이 존재하지 않습니다."));
 
         if(loginedMember.getPassword().equals(actorPassword)==false) throw new GlobalException("403-3", "해당 비밀번호가 일치하지 않습니다.");
+
+        member = loginedMember;
 
         return loginedMember;
     }
