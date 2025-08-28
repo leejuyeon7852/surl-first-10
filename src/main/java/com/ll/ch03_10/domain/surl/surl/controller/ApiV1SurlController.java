@@ -8,7 +8,6 @@ import com.ll.ch03_10.global.exceptions.GlobalException;
 import com.ll.ch03_10.global.rq.Rq;
 import com.ll.ch03_10.global.rsData.RsData;
 import com.ll.ch03_10.standard.dto.Empty;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
@@ -17,6 +16,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/surls")
@@ -92,30 +93,25 @@ public class ApiV1SurlController {
 
 
 
-
-
-    @GetMapping("/s/{body}/**") //**은 모든 것이 다 온다는 뜻
-    @ResponseBody
-    public RsData<Surl> add(
-            @PathVariable String body,
-            HttpServletRequest req
-    ){
-        //String requestURI = req.getRequestURI();
-
-        String url = req.getRequestURI();
-
-        if(req.getQueryString()!=null){
-            url += "?" + req.getQueryString();
-        }
-
-        String[] urlBits = url.split("/", 4);// "/" 기준으로 나누고, 4개 이상 나누지 마라
-
-        url = urlBits[3];
-
-        Member member = rq.getMember();
-
-        return surlService.add(member, body, url);
+    @AllArgsConstructor
+    @Getter
+    public static class SurlGetItemsRespBody {
+        private List<SurlDto> items;
     }
 
+    @GetMapping("")
+    @ResponseBody
+    public RsData<SurlGetItemsRespBody> getItems(){
+        Member member = rq.getMember();
+        List<Surl> surls = surlService.findByAuthorOrderByIdDesc(member);
+
+        return RsData.of(
+                new SurlGetItemsRespBody(
+                       surls.stream()
+                               .map(SurlDto::new)
+                               .toList()
+                )
+        );
+    }
 
 }
