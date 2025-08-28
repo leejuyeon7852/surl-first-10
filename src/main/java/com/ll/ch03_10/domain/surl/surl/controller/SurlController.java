@@ -10,6 +10,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -18,6 +19,7 @@ import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 @Slf4j
 public class SurlController {
     private final Rq rq;
@@ -31,6 +33,7 @@ public class SurlController {
 
     @GetMapping("/add")
     @ResponseBody
+    @Transactional
     public RsData<Surl> add(String body, String url){
         Member member = rq.getMember(); //현재 브라우저로 로그인한 회원
         return surlService.add(member, body, url);
@@ -38,6 +41,7 @@ public class SurlController {
 
     @GetMapping("/s/{body}/**") //**은 모든 것이 다 온다는 뜻
     @ResponseBody
+    @Transactional
     public RsData<Surl> add(
             @PathVariable String body,
             HttpServletRequest req
@@ -61,6 +65,7 @@ public class SurlController {
 
     @GetMapping("/g/{id}")
     //@ResponseBody
+    @Transactional
     public String go(@PathVariable long id){
 
         //Surl surl = surlService.findById(id).get();

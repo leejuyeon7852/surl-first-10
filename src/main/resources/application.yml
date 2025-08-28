@@ -24,6 +24,7 @@ spring:
         format_sql: true
         highlight_sql: true
         use_sql_comments: true
+    open-in-view: false
 logging: # SQL이 자세하게 출력됨
   level:
     com.ll.ch03_10: DEBUG
