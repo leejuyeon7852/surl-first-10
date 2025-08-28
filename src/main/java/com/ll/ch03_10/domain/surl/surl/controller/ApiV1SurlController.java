@@ -7,6 +7,7 @@ import com.ll.ch03_10.domain.surl.surl.service.SurlService;
 import com.ll.ch03_10.global.exceptions.GlobalException;
 import com.ll.ch03_10.global.rq.Rq;
 import com.ll.ch03_10.global.rsData.RsData;
+import com.ll.ch03_10.standard.dto.Empty;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
@@ -76,6 +77,19 @@ public class ApiV1SurlController {
                 )
         );
     }
+
+
+    @DeleteMapping("/{id}")
+    @Transactional
+    public RsData<Empty> delete(
+            @PathVariable long id
+    ){
+        Surl surl = surlService.findById(id).orElseThrow(GlobalException.E404::new);
+        surlService.delete(surl);
+
+        return RsData.OK;
+    }
+
 
 
 

@@ -44,4 +44,9 @@ public class SurlService {
     public void increaseCount(Surl surl) {
         surl.increaseCount();
     }
+
+    @Transactional
+    public void delete(Surl surl) {
+        surlRepository.delete(surl);
+    }
 }
