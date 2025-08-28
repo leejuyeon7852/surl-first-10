@@ -20,10 +20,15 @@ public class Rq {
 
     public Member getMember(){
         String actorUsername = req.getParameter("actorUsername");
-        if(Ut.str.isBlank(actorUsername)) throw new GlobalException("401-1", "인증정보를 입력해주세요.");
+        String actorPassword = req.getParameter("actorPassword");
+
+        if(Ut.str.isBlank(actorUsername)) throw new GlobalException("401-1", "인증정보(아이디)를 입력해주세요.");
+        if(Ut.str.isBlank(actorPassword)) throw new GlobalException("401-1", "인증정보(비밀번호)를 입력해주세요.");
 
         Member loginedMember = memberService.findByUsername(actorUsername)
-                .orElseThrow(() -> new GlobalException("401-2", "인증정보가 올바르지 않습니다"));
+                .orElseThrow(() -> new GlobalException("401-2", "해당회원이 존재하지 않습니다."));
+
+        if(loginedMember.getPassword().equals(actorPassword)==false) throw new GlobalException("403-3", "해당 비밀번호가 일치하지 않습니다.");
 
         return loginedMember;
     }
