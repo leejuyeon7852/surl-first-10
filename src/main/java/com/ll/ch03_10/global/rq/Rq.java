@@ -51,15 +51,22 @@ public class Rq {
         return loginedMember;
     }
 
-    private String getCookieValue(String cookieName, String defaultValue) {
-       return Arrays.stream(req.getCookies())
-               .filter(cookie -> cookie.getName().equals(cookieName))
-               .findFirst()
-               .map(Cookie::getValue)
-               .orElse(defaultValue);
-    }
-
     public String getCurrentUrlPath() {
         return req.getRequestURI();
+    }
+
+    private String getCookieValue(String cookieName, String defaultValue) {
+        return Arrays.stream(req.getCookies())
+                .filter(cookie -> cookie.getName().equals(cookieName))
+                .findFirst()
+                .map(Cookie::getValue)
+                .orElse(defaultValue);
+    }
+
+    public void removeCookie(String cookieName) {
+        Cookie cookie = new Cookie(cookieName, null);
+        cookie.setMaxAge(0); //수명
+        cookie.setPath("/");
+        resp.addCookie(cookie);
     }
 }
