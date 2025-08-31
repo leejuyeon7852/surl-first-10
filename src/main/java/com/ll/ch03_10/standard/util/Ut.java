@@ -1,4 +1,4 @@
-package com.ll.ch03_10.standard.dto.util;
+package com.ll.ch03_10.standard.util;
 
 public class Ut {
     public static class str{

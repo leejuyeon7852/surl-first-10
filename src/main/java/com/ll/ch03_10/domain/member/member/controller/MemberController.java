@@ -4,7 +4,7 @@ import com.ll.ch03_10.domain.member.member.entity.Member;
 import com.ll.ch03_10.domain.member.member.service.MemberService;
 import com.ll.ch03_10.global.exceptions.GlobalException;
 import com.ll.ch03_10.global.rsData.RsData;
-import com.ll.ch03_10.standard.dto.util.Ut;
+import com.ll.ch03_10.standard.util.Ut;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
