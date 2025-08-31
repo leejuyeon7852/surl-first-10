@@ -56,7 +56,7 @@ public class CustomAuthenticationFilter extends OncePerRequestFilter {
             filterChain.doFilter(req, resp);
 
         //인증..?
-        User user = new User(loginedMember.getUsername(), "", List.of());
+        User user = new User(loginedMember.getId()+"", "", List.of());
         Authentication authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
