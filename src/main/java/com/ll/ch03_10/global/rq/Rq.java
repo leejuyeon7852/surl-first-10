@@ -11,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.RequestScope;
 
+import java.util.Arrays;
+
 @Component
 @RequestScope
 @RequiredArgsConstructor
@@ -50,15 +52,11 @@ public class Rq {
     }
 
     private String getCookieValue(String cookieName, String defaultValue) {
-        if(req.getCookies()!=null){
-            for(Cookie cookie : req.getCookies()){
-                if(cookie.getName().equals(cookieName)){
-                    return cookie.getValue();
-                }
-            }
-        }
-
-        return defaultValue;
+       return Arrays.stream(req.getCookies())
+               .filter(cookie -> cookie.getName().equals(cookieName))
+               .findFirst()
+               .map(Cookie::getValue)
+               .orElse(defaultValue);
     }
 
     public String getCurrentUrlPath() {
