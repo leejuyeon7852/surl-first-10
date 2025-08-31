@@ -12,17 +12,21 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(authorizeRequests ->
                         authorizeRequests
-                                .requestMatchers("/h2-console/**")
-                                .permitAll()
-                                .requestMatchers("/actuator/**")
-                                .permitAll()
+                                .requestMatchers("/h2-console/**").permitAll()
+                                .requestMatchers("/actuator/**").permitAll()
                                 .anyRequest()
                                 .authenticated()
                 )
+                .headers(
+                        headers -> headers.frameOptions(
+                                        frameOptions -> frameOptions.sameOrigin()
+                                )
+                )
+                .csrf(
+                        csrf -> csrf.disable()
+                ) //REST API에서는 사용하지 않는다
                 .formLogin(
-                        formLogin ->
-                                formLogin
-                                        .permitAll()
+                        formLogin -> formLogin.permitAll()
                 );
 
         return http.build();
