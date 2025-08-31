@@ -21,6 +21,7 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(authorizeRequests ->
                         authorizeRequests
+                                .requestMatchers("api/*/members","/api/*/members/login").permitAll()
                                 .requestMatchers("/h2-console/**").permitAll()
                                 .requestMatchers("/actuator/**").permitAll()
                                 .anyRequest()
