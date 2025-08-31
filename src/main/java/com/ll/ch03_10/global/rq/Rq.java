@@ -44,7 +44,8 @@ public class Rq {
         Member loginedMember = memberService.findByUsername(actorUsername)
                 .orElseThrow(() -> new GlobalException("401-2", "해당회원이 존재하지 않습니다."));
 
-        if(!memberService.matchPassword(actorPassword, loginedMember.getPassword())) throw new GlobalException("403-3", "해당 비밀번호가 일치하지 않습니다.");
+        if(!memberService.matchPassword(actorPassword, loginedMember.getPassword()))
+            throw new GlobalException("403-3", "해당 비밀번호가 일치하지 않습니다.");
 
         member = loginedMember;
 
@@ -55,7 +56,7 @@ public class Rq {
         return req.getRequestURI();
     }
 
-    private String getCookieValue(String cookieName, String defaultValue) {
+    public String getCookieValue(String cookieName, String defaultValue) {
         if(req.getCookies() == null) return defaultValue;
 
         return Arrays.stream(req.getCookies())
