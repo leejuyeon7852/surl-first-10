@@ -20,10 +20,14 @@ public class Rq {
     private Member member;
 
     public Member getMember(){
-        if(member == null) return member;
+        if (member != null) return member;
 
         String actorUsername = req.getParameter("actorUsername");
         String actorPassword = req.getParameter("actorPassword");
+
+        //파라미터에 없을 경우 헤더에서 가져온다
+        if(actorUsername == null) actorUsername = req.getHeader("actorUsername");
+        if(actorPassword == null) actorPassword = req.getHeader("actorPassword");
 
         if(Ut.str.isBlank(actorUsername)) throw new GlobalException("401-1", "인증정보(아이디)를 입력해주세요.");
         if(Ut.str.isBlank(actorPassword)) throw new GlobalException("401-1", "인증정보(비밀번호)를 입력해주세요.");
