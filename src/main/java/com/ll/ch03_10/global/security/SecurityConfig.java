@@ -24,6 +24,7 @@ public class SecurityConfig {
                                 .requestMatchers("api/*/members","/api/*/members/login").permitAll()
                                 .requestMatchers("/h2-console/**").permitAll()
                                 .requestMatchers("/actuator/**").permitAll()
+                                .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
                                 .anyRequest()
                                 .authenticated()
                 )
