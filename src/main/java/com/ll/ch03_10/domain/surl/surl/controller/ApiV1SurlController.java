@@ -10,6 +10,8 @@ import com.ll.ch03_10.global.exceptions.GlobalException;
 import com.ll.ch03_10.global.rq.Rq;
 import com.ll.ch03_10.global.rsData.RsData;
 import com.ll.ch03_10.standard.dto.Empty;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
@@ -21,13 +23,12 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
-
 @RestController
-@RequestMapping(value = "/api/v1/surls", produces = APPLICATION_JSON_VALUE)
+@RequestMapping("/api/v1/surls")
 @RequiredArgsConstructor
 @Slf4j
 @Transactional(readOnly = true)
+@Tag(name = "ApiSurlController", description = "Surl CRUD 컨트롤러")
 public class ApiV1SurlController {
     private final Rq rq;
     private final SurlService surlService;
@@ -51,6 +52,7 @@ public class ApiV1SurlController {
 
     @PostMapping("")
     @Transactional
+    @Operation(summary = "생성")
     public RsData<SurlAddRespBody> add(
             @RequestBody @Valid SurlAddReqBody reqBody
     ){
@@ -73,6 +75,7 @@ public class ApiV1SurlController {
 
     @GetMapping("/{id}")
     @ResponseBody
+    @Operation(summary = "단건조회")
     public RsData<SurlGetRespBody> get(
             @PathVariable long id
     ){
@@ -90,6 +93,7 @@ public class ApiV1SurlController {
 
     @DeleteMapping("/{id}")
     @Transactional
+    @Operation(summary = "삭제")
     public RsData<Empty> delete(
             @PathVariable long id
     ){
@@ -112,6 +116,7 @@ public class ApiV1SurlController {
 
     @GetMapping("")
     @ResponseBody
+    @Operation(summary = "다건조회")
     public RsData<SurlGetItemsRespBody> getItems(){
 
         Member member = rq.getMember();
@@ -145,6 +150,7 @@ public class ApiV1SurlController {
 
     @PutMapping("/{id}")
     @Transactional
+    @Operation(summary = "수정")
     public RsData<SurlModifyRespBody> modify(
             @PathVariable long id,
             @RequestBody @Valid SurlModifyReqBody reqBody
