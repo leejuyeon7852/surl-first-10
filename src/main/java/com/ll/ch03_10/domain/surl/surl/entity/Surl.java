@@ -13,8 +13,8 @@ import static lombok.AccessLevel.PROTECTED;
 @Builder
 @Getter
 @Setter
-@AllArgsConstructor(access=PROTECTED)
-@NoArgsConstructor(access=PROTECTED)
+@AllArgsConstructor(access = PROTECTED)
+@NoArgsConstructor(access = PROTECTED)
 public class Surl extends BaseTime {
     @ManyToOne
     @JsonIgnore // 나중에 제거할 거임
@@ -24,7 +24,7 @@ public class Surl extends BaseTime {
     @Setter(AccessLevel.NONE) //count만 setter를 막고 싶을 때
     private long count;
 
-    public void increaseCount(){
+    public void increaseCount() {
         count++;
     }
 }

@@ -21,14 +21,12 @@ import org.springframework.core.annotation.Order;
 @Configuration
 @RequiredArgsConstructor
 public class NotProd {
-    @Lazy
-    @Autowired
-    private NotProd self; //외우기
-
     private final MemberService memberService;
     private final ArticleService articleService; //bean이 들어오게 된다?
     private final SurlService surlService;
-
+    @Lazy
+    @Autowired
+    private NotProd self; //외우기
     @Autowired
     private MemberRepository memberRepository;
 
@@ -36,7 +34,7 @@ public class NotProd {
     //GitHub Action test
     @Bean
     @Order(4)
-    public ApplicationRunner initNotProd(){//spring boot와 약속된 class? 시작할때 처음으로 시작됨 바로
+    public ApplicationRunner initNotProd() {//spring boot와 약속된 class? 시작할때 처음으로 시작됨 바로
         return args -> {
             self.work1();
         }; //프로그램 실행될 때 자동으로 실행
@@ -44,15 +42,15 @@ public class NotProd {
 
     @Transactional
     public void work1() {
-        if(articleService.count() > 0) return; //읽기 트랜잭션 1
+        if (articleService.count() > 0) return; //읽기 트랜잭션 1
 
         Member memberUser1 = memberService.findByUsername("user1").get();
         Member memberUser2 = memberService.findByUsername("user2").get();
 
-        Article article1 = articleService.write(memberUser1,"제목1", "내용1").getData();
+        Article article1 = articleService.write(memberUser1, "제목1", "내용1").getData();
         Article article2 = articleService.write(memberUser1, "제목2", "내용2").getData();
 
-        Article article3 = articleService.write(memberUser2,"제목3", "내용3").getData();
+        Article article3 = articleService.write(memberUser2, "제목3", "내용3").getData();
         Article article4 = articleService.write(memberUser2, "제목4", "내용4").getData();
 
         Surl surl1 = surlService.add(memberUser1, "네이버", "https://www.naver.com").getData();

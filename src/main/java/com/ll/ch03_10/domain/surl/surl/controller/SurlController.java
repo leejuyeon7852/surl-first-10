@@ -24,12 +24,12 @@ public class SurlController {
     //@ResponseBody
     @Transactional
     @Operation(summary = "원본 URL로 리다이렉트")
-    public String go(@PathVariable long id){
+    public String go(@PathVariable long id) {
 
         //Surl surl = surlService.findById(id).get();
         Surl surl = surlService.findById(id).orElseThrow(GlobalException.E404::new);
 
         surlService.increaseCount(surl);
-        return "redirect:"+ surl.getUrl();
+        return "redirect:" + surl.getUrl();
     }
 }

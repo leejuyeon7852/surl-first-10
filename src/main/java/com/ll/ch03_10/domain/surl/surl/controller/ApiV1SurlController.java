@@ -35,27 +35,12 @@ public class ApiV1SurlController {
     private final AuthService authService;
     private final MemberService memberService;
 
-    @AllArgsConstructor
-    @Getter
-    public static class SurlAddReqBody{
-        @NotBlank
-        private String body;
-        @NotBlank
-        private String url;
-    }
-
-    @AllArgsConstructor
-    @Getter
-    public static class SurlAddRespBody{
-        private SurlDto item;
-    }
-
     @PostMapping("")
     @Transactional
     @Operation(summary = "생성")
     public RsData<SurlAddRespBody> add(
             @RequestBody @Valid SurlAddReqBody reqBody
-    ){
+    ) {
         Member member = rq.getMember(); //현재 브라우저로 로그인한 회원
         RsData<Surl> addRs = surlService.add(member, reqBody.body, reqBody.url);
 
@@ -66,19 +51,12 @@ public class ApiV1SurlController {
         );
     }
 
-
-    @AllArgsConstructor
-    @Getter
-    public static class SurlGetRespBody{
-        private SurlDto item;
-    }
-
     @GetMapping("/{id}")
     @ResponseBody
     @Operation(summary = "단건조회")
     public RsData<SurlGetRespBody> get(
             @PathVariable long id
-    ){
+    ) {
         Surl surl = surlService.findById(id).orElseThrow(GlobalException.E404::new);
 
         authService.checkCanGetSurl(rq.getMember(), surl);
@@ -90,13 +68,12 @@ public class ApiV1SurlController {
         );
     }
 
-
     @DeleteMapping("/{id}")
     @Transactional
     @Operation(summary = "삭제")
     public RsData<Empty> delete(
             @PathVariable long id
-    ){
+    ) {
         Surl surl = surlService.findById(id).orElseThrow(GlobalException.E404::new);
 
         authService.checkCanDeleteSurl(rq.getMember(), surl);
@@ -106,46 +83,21 @@ public class ApiV1SurlController {
         return RsData.OK;
     }
 
-
-
-    @AllArgsConstructor
-    @Getter
-    public static class SurlGetItemsRespBody {
-        private List<SurlDto> items;
-    }
-
     @GetMapping("")
     @ResponseBody
     @Operation(summary = "다건조회")
-    public RsData<SurlGetItemsRespBody> getItems(){
+    public RsData<SurlGetItemsRespBody> getItems() {
 
         Member member = rq.getMember();
         List<Surl> surls = surlService.findByAuthorOrderByIdDesc(member);
 
         return RsData.of(
                 new SurlGetItemsRespBody(
-                       surls.stream()
-                               .map(SurlDto::new)
-                               .toList()
+                        surls.stream()
+                                .map(SurlDto::new)
+                                .toList()
                 )
         );
-    }
-
-
-
-    @AllArgsConstructor
-    @Getter
-    public static class SurlModifyReqBody{
-        @NotBlank
-        private String body;
-        @NotBlank
-        private String url;
-    }
-
-    @AllArgsConstructor
-    @Getter
-    public static class SurlModifyRespBody{
-        private SurlDto item;
     }
 
     @PutMapping("/{id}")
@@ -154,7 +106,7 @@ public class ApiV1SurlController {
     public RsData<SurlModifyRespBody> modify(
             @PathVariable long id,
             @RequestBody @Valid SurlModifyReqBody reqBody
-    ){
+    ) {
         Surl surl = surlService.findById(id).orElseThrow(GlobalException.E404::new);
         RsData<Surl> modifyRs = surlService.modify(surl, reqBody.body, reqBody.url);
 
@@ -165,6 +117,48 @@ public class ApiV1SurlController {
                         new SurlDto(modifyRs.getData())
                 )
         );
+    }
+
+    @AllArgsConstructor
+    @Getter
+    public static class SurlAddReqBody {
+        @NotBlank
+        private String body;
+        @NotBlank
+        private String url;
+    }
+
+    @AllArgsConstructor
+    @Getter
+    public static class SurlAddRespBody {
+        private SurlDto item;
+    }
+
+    @AllArgsConstructor
+    @Getter
+    public static class SurlGetRespBody {
+        private SurlDto item;
+    }
+
+    @AllArgsConstructor
+    @Getter
+    public static class SurlGetItemsRespBody {
+        private List<SurlDto> items;
+    }
+
+    @AllArgsConstructor
+    @Getter
+    public static class SurlModifyReqBody {
+        @NotBlank
+        private String body;
+        @NotBlank
+        private String url;
+    }
+
+    @AllArgsConstructor
+    @Getter
+    public static class SurlModifyRespBody {
+        private SurlDto item;
     }
 
 }

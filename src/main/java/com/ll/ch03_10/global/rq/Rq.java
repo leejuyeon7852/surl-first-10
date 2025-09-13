@@ -21,7 +21,7 @@ public class Rq {
     private final MemberService memberService;
     private Member member;
 
-    public Member getMember(){
+    public Member getMember() {
         if (member != null) return member;
 
         long id = Long.parseLong(SecurityContextHolder.getContext().getAuthentication().getName());
@@ -36,7 +36,7 @@ public class Rq {
     }
 
     public String getCookieValue(String cookieName, String defaultValue) {
-        if(req.getCookies() == null) return defaultValue;
+        if (req.getCookies() == null) return defaultValue;
 
         return Arrays.stream(req.getCookies())
                 .filter(cookie -> cookie.getName().equals(cookieName))

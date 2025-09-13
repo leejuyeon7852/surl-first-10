@@ -11,17 +11,17 @@ import static lombok.AccessLevel.PROTECTED;
 @Builder
 @Getter
 @Setter
-@AllArgsConstructor(access=PROTECTED)
-@NoArgsConstructor(access=PROTECTED)
+@AllArgsConstructor(access = PROTECTED)
+@NoArgsConstructor(access = PROTECTED)
 public class Member extends BaseTime {
-    @Column(unique=true)
+    @Column(unique = true)
     private String username;
     private String password;
     private String nickname;
-    @Column(unique=true)
+    @Column(unique = true)
     private String refreshToken;
 
-    public String getName(){
+    public String getName() {
         return this.nickname;
     }
 }

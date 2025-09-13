@@ -36,7 +36,7 @@ public class ArticleService {
                 .build();
         articleRepository.save(article);
 
-        return RsData.of("%d번 게시물이 작성되었습니다.".formatted(article.getId()),article);
+        return RsData.of("%d번 게시물이 작성되었습니다.".formatted(article.getId()), article);
     }
 
     @Transactional

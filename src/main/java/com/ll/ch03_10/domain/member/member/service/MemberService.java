@@ -33,7 +33,7 @@ public class MemberService {
                 .build();
         memberRepository.save(member);
 
-        return RsData.of("회원가입이 완료되었습니다.",member);
+        return RsData.of("회원가입이 완료되었습니다.", member);
     }
 
     public Optional<Member> findByUsername(String username) {
@@ -49,7 +49,7 @@ public class MemberService {
     }
 
     public boolean matchPassword(String password, String encodedPassword) {
-        return passwordEncoder.matches(password,encodedPassword);
+        return passwordEncoder.matches(password, encodedPassword);
     }
 
     public Optional<Member> findById(long id) {

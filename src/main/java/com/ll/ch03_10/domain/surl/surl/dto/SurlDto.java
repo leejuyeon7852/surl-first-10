@@ -20,14 +20,14 @@ public class SurlDto {
     private String url;
     private long count;
 
-    public SurlDto(Surl surl){
-        this.id=surl.getId();
-        this.createDate=surl.getCreateDate();
-        this.modifyDate=surl.getModifyDate();
-        this.authorId=surl.getAuthor().getId();
-        this.authorName=surl.getAuthor().getName();
-        this.body=surl.getBody();
-        this.url=surl.getUrl();
-        this.count=surl.getCount();
+    public SurlDto(Surl surl) {
+        this.id = surl.getId();
+        this.createDate = surl.getCreateDate();
+        this.modifyDate = surl.getModifyDate();
+        this.authorId = surl.getAuthor().getId();
+        this.authorName = surl.getAuthor().getName();
+        this.body = surl.getBody();
+        this.url = surl.getUrl();
+        this.count = surl.getCount();
     }
 }

@@ -34,7 +34,7 @@ public class SurlService {
 
         surlRepository.save(surl);
 
-        return RsData.of("%d번 SURL이 생성되었습니다.".formatted(surl.getId()),surl);
+        return RsData.of("%d번 SURL이 생성되었습니다.".formatted(surl.getId()), surl);
     }
 
     public Optional<Surl> findById(long id) {
@@ -59,6 +59,6 @@ public class SurlService {
         surl.setBody(body);
         surl.setUrl(url);
 
-        return RsData.of("%d번 SURL이 수정되었습니다.".formatted(surl.getId()),surl);
+        return RsData.of("%d번 SURL이 수정되었습니다.".formatted(surl.getId()), surl);
     }
 }

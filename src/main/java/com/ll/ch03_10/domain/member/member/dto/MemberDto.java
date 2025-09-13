@@ -13,11 +13,11 @@ public class MemberDto {
     private String username;
     private String nickname;
 
-    public MemberDto(Member member){
-        this.id=member.getId();
-        this.createDate=member.getCreateDate();
-        this.modifyDate=member.getModifyDate();
-        this.username=member.getUsername();
-        this.nickname=member.getNickname();
+    public MemberDto(Member member) {
+        this.id = member.getId();
+        this.createDate = member.getCreateDate();
+        this.modifyDate = member.getModifyDate();
+        this.username = member.getUsername();
+        this.nickname = member.getNickname();
     }
 }

@@ -18,7 +18,7 @@ public class HomeController {
     @Operation(summary = "API 메인화면")
     @GetMapping("/")
     @ResponseBody
-    public String showMain(){
-        return "Hello, World! on " +siteName+"!!!!!!!";
+    public String showMain() {
+        return "Hello, World! on " + siteName + "!!!!!!!";
     }
 }

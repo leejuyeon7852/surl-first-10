@@ -31,23 +31,6 @@ public class ApiV1MemberController {
     private final AuthTokenService authTokenService;
     private final Rq rq;
 
-    @AllArgsConstructor
-    @Getter
-    public static class MemberJoinReqBody {
-        @NotBlank
-        private String username;
-        @NotBlank
-        private String password;
-        @NotBlank
-        private String nickname;
-    }
-
-    @AllArgsConstructor
-    @Getter
-    public static class MemberJoinRespBody {
-        MemberDto item;
-    }
-
     @PostMapping("")
     @Transactional
     @Operation(summary = "회원가입")
@@ -63,21 +46,6 @@ public class ApiV1MemberController {
         );
     }
 
-    @AllArgsConstructor
-    @Getter
-    public static class MemberLoginReqBody {
-        @NotBlank
-        private String username;
-        @NotBlank
-        private String password;
-    }
-
-    @AllArgsConstructor
-    @Getter
-    public static class MemberLoginRespBody {
-        MemberDto item;
-    }
-
     @PostMapping("/login")
     @Transactional
     @Operation(summary = "로그인", description = "성공하면 accessToken, refreshToken 쿠키가 생성됨")
@@ -88,7 +56,7 @@ public class ApiV1MemberController {
                 .findByUsername(reqBody.username)
                 .orElseThrow(() -> new GlobalException("401-1", "해당 회원을 찾을 수 없습니다"));
 
-        if(!memberService.matchPassword(reqBody.password, member.getPassword())){
+        if (!memberService.matchPassword(reqBody.password, member.getPassword())) {
             throw new GlobalException("401-2", "비밀번호가 일치하지 않습니다");
         }
 
@@ -113,5 +81,37 @@ public class ApiV1MemberController {
         rq.removeCookie("actorPassword");
 
         return RsData.OK;
+    }
+
+    @AllArgsConstructor
+    @Getter
+    public static class MemberJoinReqBody {
+        @NotBlank
+        private String username;
+        @NotBlank
+        private String password;
+        @NotBlank
+        private String nickname;
+    }
+
+    @AllArgsConstructor
+    @Getter
+    public static class MemberJoinRespBody {
+        MemberDto item;
+    }
+
+    @AllArgsConstructor
+    @Getter
+    public static class MemberLoginReqBody {
+        @NotBlank
+        private String username;
+        @NotBlank
+        private String password;
+    }
+
+    @AllArgsConstructor
+    @Getter
+    public static class MemberLoginRespBody {
+        MemberDto item;
     }
 }

@@ -34,25 +34,25 @@ public class CustomAuthenticationFilter extends OncePerRequestFilter {
         String accessToken = rq.getCookieValue("accessToken", null);
         String refreshToken = rq.getCookieValue("refreshToken", null);
 
-        if(accessToken == null || refreshToken == null){
+        if (accessToken == null || refreshToken == null) {
             String authorization = req.getHeader("Authorization");
-            if( authorization != null ){
+            if (authorization != null) {
                 String authorizationBits[] = authorization.substring("bearer ".length()).split(" ", 2);
-                if(authorizationBits.length==2) {
+                if (authorizationBits.length == 2) {
                     accessToken = authorizationBits[0];
                     refreshToken = authorizationBits[1];
                 }
             }
         }
 
-        if(Ut.str.isBlank(accessToken) || Ut.str.isBlank(refreshToken)){
+        if (Ut.str.isBlank(accessToken) || Ut.str.isBlank(refreshToken)) {
             filterChain.doFilter(req, resp);
             return;
         }
 
-        if(!authTokenService.validateToken(accessToken)){
+        if (!authTokenService.validateToken(accessToken)) {
             Member member = memberService.findByRefreshToken(refreshToken).orElse(null);
-            if(member == null){
+            if (member == null) {
                 filterChain.doFilter(req, resp);
                 return;
             }

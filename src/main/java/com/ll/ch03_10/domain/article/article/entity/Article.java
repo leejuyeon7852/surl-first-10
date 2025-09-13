@@ -13,8 +13,8 @@ import static lombok.AccessLevel.PROTECTED;
 @Builder
 @Getter
 @Setter
-@AllArgsConstructor(access=PROTECTED)
-@NoArgsConstructor(access=PROTECTED)
+@AllArgsConstructor(access = PROTECTED)
+@NoArgsConstructor(access = PROTECTED)
 public class Article extends BaseTime {
     private String title;
     @Column(columnDefinition = "TEXT")

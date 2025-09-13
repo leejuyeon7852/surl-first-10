@@ -22,7 +22,7 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(authorizeRequests ->
                         authorizeRequests
-                                .requestMatchers("api/*/members","/api/*/members/login").permitAll()
+                                .requestMatchers("api/*/members", "/api/*/members/login").permitAll()
                                 .requestMatchers("/h2-console/**").permitAll()
                                 .requestMatchers("/actuator/**").permitAll()
                                 .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
@@ -33,8 +33,8 @@ public class SecurityConfig {
                 )
                 .headers(
                         headers -> headers.frameOptions(
-                                        frameOptions -> frameOptions.sameOrigin()
-                                )
+                                frameOptions -> frameOptions.sameOrigin()
+                        )
                 )
                 .csrf(
                         csrf -> csrf.disable()
