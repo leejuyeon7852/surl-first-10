@@ -40,16 +40,16 @@ public class All {
         if (memberService.count() > 0) return; //읽기 트랜잭션 1
 
         Member memberSystem = memberService.join("system", "1234", "시스템").getData();
-        if(AppConfig.isNotProd())  memberSystem.setRefreshToken(memberSystem.getUsername());
+        if (AppConfig.isNotProd()) memberSystem.setRefreshToken(memberSystem.getUsername());
 
         Member memberAdmin = memberService.join("admin", "1234", "관리자").getData();
-        if(AppConfig.isNotProd()) memberAdmin.setRefreshToken(memberAdmin.getUsername());
+        if (AppConfig.isNotProd()) memberAdmin.setRefreshToken(memberAdmin.getUsername());
 
         Member memberUser1 = memberService.join("user1", "1234", "유저1").getData();
-        if(AppConfig.isNotProd()) memberUser1.setRefreshToken(memberUser1.getUsername());
+        if (AppConfig.isNotProd()) memberUser1.setRefreshToken(memberUser1.getUsername());
 
         Member memberUser2 = memberService.join("user2", "1234", "유저2").getData();
-        if(AppConfig.isNotProd()) memberUser2.setRefreshToken(memberUser2.getUsername());
+        if (AppConfig.isNotProd()) memberUser2.setRefreshToken(memberUser2.getUsername());
 
     }
 

@@ -31,18 +31,26 @@ public class CustomAuthenticationFilter extends OncePerRequestFilter {
     @Override
     @SneakyThrows
     protected void doFilterInternal(HttpServletRequest req, HttpServletResponse resp, FilterChain filterChain) {
-        String accessToken = rq.getCookieValue("accessToken", null);
-        String refreshToken = rq.getCookieValue("refreshToken", null);
+        String accessToken = null;
+        String refreshToken = null;
 
-        if (accessToken == null || refreshToken == null) {
-            String authorization = req.getHeader("Authorization");
-            if (authorization != null) {
-                String authorizationBits[] = authorization.substring("bearer ".length()).split(" ", 2);
-                if (authorizationBits.length == 2) {
-                    accessToken = authorizationBits[0];
-                    refreshToken = authorizationBits[1];
-                }
+        boolean cookieBased = true;
+
+        String authorization = req.getHeader("Authorization");
+        if (authorization != null) {
+            String[] authorizationBits = authorization.substring("Bearer ".length()).split(" ", 2);
+
+            if (authorizationBits.length == 2) {
+                refreshToken = authorizationBits[0];
+                accessToken = authorizationBits[1];
+                cookieBased = false;
             }
+        }
+
+        if (Ut.str.isBlank(accessToken) || Ut.str.isBlank(refreshToken)) {
+            accessToken = rq.getCookieValue("accessToken", null);
+            refreshToken = rq.getCookieValue("refreshToken", null);
+            cookieBased = true;
         }
 
         if (Ut.str.isBlank(accessToken) || Ut.str.isBlank(refreshToken)) {
@@ -52,26 +60,31 @@ public class CustomAuthenticationFilter extends OncePerRequestFilter {
 
         if (!authTokenService.validateToken(accessToken)) {
             Member member = memberService.findByRefreshToken(refreshToken).orElse(null);
+
             if (member == null) {
                 filterChain.doFilter(req, resp);
                 return;
             }
+
             String newAccessToken = authTokenService.genToken(member, AppConfig.getAccessTokenExpirationSec());
-            rq.setCookie("accessToken", newAccessToken);
+
+            if (cookieBased)
+                rq.setCookie("accessToken", newAccessToken);
+            else
+                resp.setHeader("Authorization", "Bearer " + refreshToken + " " + newAccessToken);
 
             accessToken = newAccessToken;
-            return;
         }
 
         Map<String, Object> accessTokenData = authTokenService.getDataFrom(accessToken);
+
         long id = (int) accessTokenData.get("id");
 
-        //인증..?
         User user = new User(id + "", "", List.of());
         Authentication authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        filterChain.doFilter(req, resp); //필터 종료하고 다음 턴으로 넘긴다
+        filterChain.doFilter(req, resp);
     }
 }
