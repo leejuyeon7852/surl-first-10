@@ -8,6 +8,9 @@
 
 	let todosLastId = 0;
 	const todos = $state<Todo[]>([]);
+	const todosCount = $derived(todos.length);
+	const doneCount = $derived(todos.filter((todo) => todo.done).length);
+	const donePercent = $derived(todosCount == 0 ? 0 : Math.round((doneCount / todosCount) * 100));
 
 	function addTodo(this: HTMLFormElement) {
 		const form: HTMLFormElement = this;
@@ -81,7 +84,7 @@
 	<button type="submit">추가</button>
 </form>
 
-<h2>할 일 리스트</h2>
+<h2>할 일 리스트({doneCount}/{todosCount})(진행률 : {donePercent}%)</h2>
 
 <ul>
 	{#each todos as todo (todo.id)}
