@@ -2,6 +2,7 @@ package com.ll.ch03_10.global.rq;
 
 import com.ll.ch03_10.domain.member.member.entity.Member;
 import com.ll.ch03_10.domain.member.member.service.MemberService;
+import com.ll.ch03_10.global.app.AppConfig;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -73,6 +74,10 @@ public class Rq {
     }
 
     private String getSiteCookieDomain() {
-        return "localhost";
+        String cookieDomain = AppConfig.getSiteCookieDomain();
+
+        if (cookieDomain.equals("localhost")) return cookieDomain;
+
+        return "." + cookieDomain;
     }
 }
