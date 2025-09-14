@@ -44,6 +44,10 @@
 		form.body.focus();
 	}
 
+	function deleteTodo(todo: Todo) {
+		todos.splice(todos.indexOf(todo), 1);
+	}
+
 	$effect(() => {
 		console.log('todos: 시작');
 		for (const todo of todos) {
@@ -68,7 +72,7 @@
 <h2>할일 추가</h2>
 <!-- svelte-ignore event_directive_deprecated -->
 <form on:submit|preventDefault={addTodo}>
-	<input type="text" name="body" placeholder="할일을 입력해주세요." />
+	<input type="text" name="body" placeholder="할일을 입력해주세요." autocomplete="off" />
 	<button type="submit">추가</button>
 </form>
 
@@ -79,6 +83,8 @@
 		<li>
 			<input type="checkbox" bind:checked={todo.done} />
 			{todo.body}
+			<!-- svelte-ignore event_directive_deprecated -->
+			<button type="button" on:click|preventDefault={() => deleteTodo(todo)}>삭제</button>
 		</li>
 	{/each}
 </ul>
