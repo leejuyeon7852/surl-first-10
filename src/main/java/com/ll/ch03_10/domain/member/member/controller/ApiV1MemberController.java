@@ -90,8 +90,8 @@ public class ApiV1MemberController {
     @Transactional
     @Operation(summary = "로그아웃")
     public RsData<Empty> logout() {
-        rq.removeCookie("actorUsername");
-        rq.removeCookie("actorPassword");
+        rq.removeCookie("accessToken");
+        rq.removeCookie("refreshToken");
 
         return RsData.OK;
     }

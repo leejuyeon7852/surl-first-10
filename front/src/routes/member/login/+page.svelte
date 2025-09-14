@@ -48,8 +48,8 @@
 	</div>
 	<div>
 		<label>
-			<span>회원가입</span>
-			<input type="submit" value="회원가입" />
+			<span>로그인</span>
+			<input type="submit" value="로그인" />
 		</label>
 	</div>
 </form>
