@@ -3,8 +3,10 @@
 		id: number;
 		body: string;
 		done: boolean;
+		edting: boolean;
 	};
 
+	let todosLastId = 0;
 	const todos = $state<Todo[]>([]);
 
 	function addTodo(this: HTMLFormElement) {
@@ -21,9 +23,10 @@
 
 		let body = $state(form.body.value);
 		let done = $state(false);
+		let edting = $state(false);
 
 		const todo = {
-			id: todos.length + 1,
+			id: ++todosLastId,
 			get body() {
 				return body;
 			},
@@ -35,6 +38,12 @@
 			},
 			set done(value: boolean) {
 				done = value;
+			},
+			get edting() {
+				return edting;
+			},
+			set edting(value: boolean) {
+				edting = value;
 			}
 		};
 
@@ -59,38 +68,54 @@
 		}
 
 		todo.body = form.body.value;
+		todo.edting = false;
 	}
 </script>
 
-<h1>할일 앱</h1>
+<h1>할 일 앱</h1>
 
-<h2>할일 추가</h2>
+<h2>할 일 추가</h2>
 <!-- svelte-ignore event_directive_deprecated -->
 <form on:submit|preventDefault={addTodo}>
 	<input type="text" name="body" placeholder="할일을 입력해주세요." autocomplete="off" />
 	<button type="submit">추가</button>
 </form>
 
-<h2>할일 리스트</h2>
+<h2>할 일 리스트</h2>
 
 <ul>
 	{#each todos as todo (todo.id)}
-		<li>
+		<li style="display:flex; gap:5px;">
 			<input type="checkbox" bind:checked={todo.done} />
-			{todo.body}
-			<!-- svelte-ignore event_directive_deprecated -->
-			<button type="button" on:click|preventDefault={() => deleteTodo(todo)}>삭제</button>
-			<!-- svelte-ignore event_directive_deprecated -->
-			<form on:submit|preventDefault={(event) => modifyTodo(event.target as HTMLFormElement, todo)}>
-				<input
-					type="text"
-					name="body"
-					placeholder="할일을 입력해주세요."
-					autocomplete="off"
-					value={todo.body}
-				/><!--bind:value하면 실시간 변경-->
-				<button type="submit">변경</button>
-			</form>
+
+			<span>{todo.id}</span>
+
+			{#if todo.edting}
+				<!-- svelte-ignore event_directive_deprecated -->
+				<form
+					style="display:flex; gap:5px;"
+					on:submit|preventDefault={(event) => modifyTodo(event.target as HTMLFormElement, todo)}
+				>
+					<input
+						type="text"
+						name="body"
+						placeholder="할일을 입력해주세요."
+						autocomplete="off"
+						value={todo.body}
+					/>
+					<button type="submit">적용</button>
+					<button type="button" on:click|preventDefault={() => (todo.edting = false)}
+						>수정취소</button
+					>
+				</form>
+			{:else}
+				{todo.body}
+				<!-- svelte-ignore event_directive_deprecated -->
+				<button type="button" on:click|preventDefault={() => deleteTodo(todo)}>삭제</button>
+
+				<!-- svelte-ignore event_directive_deprecated -->
+				<button type="button" on:click|preventDefault={() => (todo.edting = true)}>수정</button>
+			{/if}
 		</li>
 	{/each}
 </ul>
