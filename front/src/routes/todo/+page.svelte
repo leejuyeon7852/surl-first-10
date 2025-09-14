@@ -48,23 +48,18 @@
 		todos.splice(todos.indexOf(todo), 1);
 	}
 
-	$effect(() => {
-		console.log('todos: 시작');
-		for (const todo of todos) {
-			console.log(todo);
-		}
-		console.log('todos: 끝');
-	});
+	function modifyTodo(form: HTMLFormElement, todo: Todo) {
+		form.body.value = form.body.value.trim();
 
-	$effect(() => {
-		console.log('todos[0]: 시작');
-		if (todos.length > 0) {
-			console.log('todos[0].id', todos[0].id);
-			console.log('todos[0].body', todos[0].body);
-			console.log('todos[0].done', todos[0].done);
+		if (form.body.value.length === 0) {
+			alert('할일을 입력해주세요.');
+			form.body.focus();
+
+			return;
 		}
-		console.log('todos[0]: 끝');
-	});
+
+		todo.body = form.body.value;
+	}
 </script>
 
 <h1>할일 앱</h1>
@@ -85,6 +80,17 @@
 			{todo.body}
 			<!-- svelte-ignore event_directive_deprecated -->
 			<button type="button" on:click|preventDefault={() => deleteTodo(todo)}>삭제</button>
+			<!-- svelte-ignore event_directive_deprecated -->
+			<form on:submit|preventDefault={(event) => modifyTodo(event.target as HTMLFormElement, todo)}>
+				<input
+					type="text"
+					name="body"
+					placeholder="할일을 입력해주세요."
+					autocomplete="off"
+					value={todo.body}
+				/><!--bind:value하면 실시간 변경-->
+				<button type="submit">변경</button>
+			</form>
 		</li>
 	{/each}
 </ul>
