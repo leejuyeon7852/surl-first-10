@@ -1,5 +1,11 @@
 <script lang="ts">
-	const todos = $state<any[]>([]);
+	type Todo = {
+		id: number;
+		body: string;
+		done: boolean;
+	};
+
+	const todos = $state<Todo[]>([]);
 
 	function addTodo(this: HTMLFormElement) {
 		const form: HTMLFormElement = this;
@@ -13,11 +19,26 @@
 			return;
 		}
 
-		todos.push({
+		let body = $state(form.body.value);
+		let done = $state(false);
+
+		const todo = {
 			id: todos.length + 1,
-			body: form.body.value,
-			done: true
-		});
+			get body() {
+				return body;
+			},
+			set body(value: string) {
+				body = value;
+			},
+			get done() {
+				return done;
+			},
+			set done(value: boolean) {
+				done = value;
+			}
+		};
+
+		todos.push(todo);
 
 		form.body.value = '';
 		form.body.focus();
@@ -29,6 +50,16 @@
 			console.log(todo);
 		}
 		console.log('todos: 끝');
+	});
+
+	$effect(() => {
+		console.log('todos[0]: 시작');
+		if (todos.length > 0) {
+			console.log('todos[0].id', todos[0].id);
+			console.log('todos[0].body', todos[0].body);
+			console.log('todos[0].done', todos[0].done);
+		}
+		console.log('todos[0]: 끝');
 	});
 </script>
 
