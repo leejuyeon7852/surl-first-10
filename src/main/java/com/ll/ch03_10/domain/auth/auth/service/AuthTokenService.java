@@ -8,6 +8,8 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.security.SecureRandom;
+import java.util.Base64;
 import java.util.Date;
 import java.util.Map;
 
@@ -52,5 +54,12 @@ public class AuthTokenService {
         } catch (Exception e) {
             return false;
         }
+    }
+
+    public String genRefreshToken() {
+        SecureRandom random = new SecureRandom();
+        byte[] bytes = new byte[10];
+        random.nextBytes(bytes);
+        return Base64.getUrlEncoder().encodeToString(bytes);
     }
 }
